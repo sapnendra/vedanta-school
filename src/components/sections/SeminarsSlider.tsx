@@ -14,21 +14,12 @@ import { useEffect, useMemo, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Progress } from "@/components/ui/progress";
+import SectionSkeleton from "@/components/ui/SectionSkeleton";
+import { fetchSeminars } from "@/lib/api";
+import type { ISeminarData } from "@/types";
 
-export interface Seminar {
-  _id: string;
-  title: string;
-  description: string;
-  date: string;
-  time: string;
-  seatsTotal: number;
-  seatsFilled: number;
-  price: number;
-  imageUrl: string;
-  badge: string;
-  originalPrice?: number;
-}
+type Seminar = ISeminarData;
 
 const badgeStyles = [
   "bg-saffron text-charcoal",
@@ -53,9 +44,7 @@ export default function SeminarsSlider() {
 
     const loadSeminars = async () => {
       try {
-        const response = await fetch("/api/seminars");
-        if (!response.ok) return;
-        const data = (await response.json()) as Seminar[];
+        const data = await fetchSeminars();
         if (isMounted) {
           setSeminars(data);
         }
@@ -102,9 +91,10 @@ export default function SeminarsSlider() {
   const handlePrev = () => setCurrentStep((prev) => (prev <= 0 ? maxStep : prev - 1));
   const handleNext = () => setCurrentStep((prev) => (prev >= maxStep ? 0 : prev + 1));
 
-  const handleReserve = () => {
-    const registrationSection = document.getElementById("register");
-    registrationSection?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const handleReserve = (seminarId: string) => {
+    const el = document.getElementById("register");
+    el?.scrollIntoView({ behavior: "smooth" });
+    sessionStorage.setItem("selectedSeminarId", seminarId);
   };
 
   return (
@@ -149,20 +139,13 @@ export default function SeminarsSlider() {
             {loading
               ? Array.from({ length: 3 }).map((_, index) => (
                   <div key={`skeleton-${index}`} className="shrink-0 px-2" style={{ width: `${slideWidth}%` }}>
-                    <Card className="h-full border-saffron/20 bg-charcoal/85">
-                      <CardContent className="space-y-4 p-5">
-                        <Skeleton className="h-6 w-24" />
-                        <Skeleton className="h-48 w-full rounded-xl" />
-                        <Skeleton className="h-7 w-3/4" />
-                        <Skeleton className="h-4 w-full" />
-                        <Skeleton className="h-4 w-5/6" />
-                        <Skeleton className="h-10 w-full rounded-full" />
-                      </CardContent>
-                    </Card>
+                    <SectionSkeleton type="card" count={1} />
                   </div>
                 ))
               : seminars.map((seminar, index) => {
                   const tone = badgeStyles[index % badgeStyles.length];
+                  const pct = seminar.seatsTotal > 0 ? (seminar.seatsFilled / seminar.seatsTotal) * 100 : 0;
+                  const barColor = pct < 70 ? "bg-green-500" : pct < 90 ? "bg-yellow-500" : "bg-red-500";
 
                   return (
                     <div
@@ -201,6 +184,11 @@ export default function SeminarsSlider() {
                             })}
                           </div>
 
+                          <div className="mt-4 space-y-1">
+                            <p className="text-xs text-ivory/80">{seminar.seatsFilled} of {seminar.seatsTotal} seats filled</p>
+                            <Progress value={pct} indicatorClassName={barColor} className="h-1.5" />
+                          </div>
+
                           <div className="mt-4 flex items-end justify-between">
                             <div className="flex items-center gap-2">
                               <span className="font-heading text-3xl font-bold text-gold">₹{seminar.price}</span>
@@ -209,7 +197,7 @@ export default function SeminarsSlider() {
                           </div>
 
                           <Button
-                            onClick={handleReserve}
+                            onClick={() => handleReserve(seminar._id)}
                             className="mt-5 w-full rounded-full bg-saffron text-charcoal hover:bg-gold"
                           >
                             Reserve Seat →

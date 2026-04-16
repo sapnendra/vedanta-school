@@ -9,6 +9,14 @@ export default function SmoothScrollProvider() {
       duration: 1.1,
       smoothWheel: true,
       syncTouch: false,
+      // Let native wheel handling work on form controls and Radix overlays.
+      prevent: (node) =>
+        node instanceof HTMLElement &&
+        Boolean(
+          node.closest(
+            "input, textarea, select, [contenteditable='true'], [role='combobox'], [data-radix-select-content], [data-radix-dialog-content]"
+          )
+        ),
     });
 
     let animationFrameId = 0;

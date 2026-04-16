@@ -7,6 +7,22 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const isLoginPath = pathname === "/admin/login";
 
+  if (pathname.startsWith("/api/payment")) {
+    // Payment routes: add security headers
+    const response = NextResponse.next();
+    response.headers.set("X-Content-Type-Options", "nosniff");
+    response.headers.set("X-Frame-Options", "DENY");
+    response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+
+    // IMPORTANT: /api/payment/webhook must NOT be protected by admin JWT
+    // Razorpay calls it directly - it has its own HMAC signature verification
+    if (pathname === "/api/payment/webhook") {
+      return response; // Let it through - webhook has its own security
+    }
+
+    return response;
+  }
+
   if (!pathname.startsWith("/admin")) {
     return NextResponse.next();
   }
@@ -38,5 +54,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/admin/:path*", "/api/payment/:path*"],
 };

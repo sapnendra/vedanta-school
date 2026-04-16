@@ -31,7 +31,7 @@ export async function PUT(request: Request, { params }: RouteContext) {
   const body = await request.json();
   const validatedData = seminarSchema.parse(body);
 
-  const updated = await Seminar.findByIdAndUpdate(id, validatedData, { new: true }).lean();
+  const updated = await Seminar.findByIdAndUpdate(id, validatedData, { returnDocument: "after" }).lean();
 
   if (!updated) {
     return NextResponse.json({ error: "Seminar not found" }, { status: 404 });

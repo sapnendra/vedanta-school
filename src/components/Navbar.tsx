@@ -14,7 +14,6 @@ const navLinks = [
   { label: "About", href: "#problem" },
   { label: "Seminars", href: "#seminars" },
   { label: "Experts", href: "#experts" },
-  { label: "Contact", href: "#register" },
 ];
 
 export default function Navbar() {
@@ -47,7 +46,7 @@ export default function Navbar() {
         isScrolled && "bg-charcoal/90 backdrop-blur-md"
       )}
     >
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-2 sm:px-6 lg:px-8">
         <Link href="#hero" className="flex items-center gap-2 text-saffron" scroll={false}>
           <Image src="/logo.svg" alt="Vedanta Life School logo" width={22} height={22} className="size-5" priority />
           <span className="font-heading text-base font-semibold tracking-tight sm:text-lg">
@@ -90,10 +89,11 @@ export default function Navbar() {
           </Button>
         </div>
 
-        <Button className="hidden rounded-full bg-saffron px-5 text-charcoal hover:bg-gold md:inline-flex" asChild>
-          <a href="#register" onClick={(event) => handleAnchorClick(event, "#register")}>
-            Reserve Your Seat
-          </a>
+        <Button
+          className="hidden rounded-full bg-saffron px-5 text-charcoal hover:bg-gold md:inline-flex"
+          onClick={() => document.getElementById("register")?.scrollIntoView({ behavior: "smooth" })}
+        >
+          Reserve Your Seat
         </Button>
       </div>
     </header>

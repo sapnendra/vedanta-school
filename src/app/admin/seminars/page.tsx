@@ -24,6 +24,8 @@ type SeminarRow = {
   isActive: boolean;
 };
 
+export const dynamic = "force-dynamic";
+
 const serialize = (doc: unknown) => JSON.parse(JSON.stringify(doc));
 
 export default async function AdminSeminarsPage() {

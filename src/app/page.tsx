@@ -2,6 +2,8 @@
 
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import ScrollToTop from "@/components/ScrollToTopButton";
+import WhatsAppButton from "@/components/WhatsAppButton";
 import ExpertsSection from "@/components/sections/ExpertsSection";
 import HeroSection from "@/components/sections/HeroSection";
 import ProblemSection from "@/components/sections/ProblemSection";
@@ -69,6 +71,8 @@ export default function Home() {
         <RegistrationForm />
       </RevealSection>
       <Footer />
+      <WhatsAppButton />
+      <ScrollToTop />
     </main>
   );
 }

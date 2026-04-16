@@ -28,7 +28,7 @@ export async function PUT(request: Request, { params }: RouteContext) {
   const body = await request.json();
   const validatedData = expertSchema.parse(body);
 
-  const expert = await Expert.findByIdAndUpdate(id, validatedData, { new: true }).lean();
+  const expert = await Expert.findByIdAndUpdate(id, validatedData, { returnDocument: "after" }).lean();
 
   if (!expert) {
     return NextResponse.json({ error: "Expert not found" }, { status: 404 });

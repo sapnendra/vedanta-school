@@ -1,11 +1,11 @@
 import bcrypt from "bcryptjs";
 
-import { connectDB } from "../lib/mongodb";
-import Admin from "../models/Admin";
-import Expert from "../models/Expert";
-import Seminar from "../models/Seminar";
-import SiteConfig from "../models/SiteConfig";
-import Testimonial from "../models/Testimonial";
+import { connectDB } from "../src/lib/mongodb";
+import Admin from "../src/models/Admin";
+import Expert from "../src/models/Expert";
+import Seminar from "../src/models/Seminar";
+import SiteConfig from "../src/models/SiteConfig";
+import Testimonial from "../src/models/Testimonial";
 
 async function seed() {
   await connectDB();
@@ -120,7 +120,7 @@ async function seed() {
     heroPrice: 199,
     heroOriginalPrice: 999,
     heroSeminarId: seminars[0]?._id?.toString(),
-    announcementText: "🔥 Limited Seats Available",
+    announcementText: "Limited Seats Available",
     showAnnouncement: true,
   });
 

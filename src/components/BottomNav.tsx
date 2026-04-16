@@ -14,7 +14,7 @@ import { useScrollDirection } from "@/hooks/useScrollDirection";
 import { cn } from "@/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
-type ActiveItem = "home" | "seminars" | "experts" | "contact" | "more";
+type ActiveItem = "home" | "seminars" | "experts" | "more";
 
 type NavItem = {
   key: ActiveItem;
@@ -27,7 +27,6 @@ const navItems: NavItem[] = [
   { key: "home", label: "Home", href: "#hero", icon: House },
   { key: "seminars", label: "Seminars", href: "#seminars", icon: BookOpen },
   { key: "experts", label: "Experts", href: "#experts", icon: GraduationCap },
-  { key: "contact", label: "Contact", href: "#register", icon: Mail },
   { key: "more", label: "More", icon: MoreHorizontal },
 ];
 
@@ -35,7 +34,6 @@ const sectionMap: Array<{ id: string; key: Exclude<ActiveItem, "more"> }> = [
   { id: "hero", key: "home" },
   { id: "seminars", key: "seminars" },
   { id: "experts", key: "experts" },
-  { id: "register", key: "contact" },
 ];
 
 export default function BottomNav() {
@@ -93,7 +91,7 @@ export default function BottomNav() {
       )}
       aria-label="Mobile Bottom Navigation"
     >
-      <div className="grid grid-cols-5 items-center px-2 py-1">
+      <div className="grid grid-cols-4 items-center px-2 py-1">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = active === item.key;

@@ -6,7 +6,7 @@ import Link from "next/link";
 import DeleteExpertButton from "@/components/admin/DeleteExpertButton";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { connectDB } from "@/lib/mongodb";
 import Expert from "@/models/Expert";
 
@@ -96,7 +96,7 @@ export default async function AdminExpertsPage() {
                   </div>
                 </CardContent>
 
-                <CardFooter className="justify-between">
+                <div className="flex items-center justify-between px-6 pb-6">
                   <Button asChild variant="ghost" size="sm">
                     <Link href={`/admin/experts/${expert._id}/edit`} className="inline-flex items-center gap-2">
                       <Pencil className="h-4 w-4" />
@@ -104,7 +104,7 @@ export default async function AdminExpertsPage() {
                     </Link>
                   </Button>
                   <DeleteExpertButton expertId={expert._id} />
-                </CardFooter>
+                </div>
               </Card>
             );
           })}

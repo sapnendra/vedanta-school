@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Poppins, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import BottomNav from "@/components/BottomNav";
-import ScrollToTopButton from "@/components/ScrollToTopButton";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import { ThemeProvider } from "@/components/theme-provider";
 
@@ -51,7 +50,6 @@ export default function RootLayout({
         >
           <SmoothScrollProvider />
           {children}
-          <ScrollToTopButton />
           <BottomNav />
         </ThemeProvider>
       </body>
